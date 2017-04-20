@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+	<entity name="Categoria" class="it.offerNotifier.model.Categoria">
+		<named-query name="getAllCategories">
+			<query>Select c from Categoria c</query>
+		</named-query>
+		<named-query name="getCategoryByName">
+			<query>Select c from Categoria c where c.nomeCategoria = :nomeCategoria</query>
+		</named-query>
+		<named-query name="getCategoryById">
+			<query>Select c from Categoria c where c.idCategoria = :idCategoria</query>
+		</named-query>
+	</entity>
+	<entity name="Utente" class="it.offerNotifier.model.Utente">
+		<named-query name="getUsers">
+			<query>Select u from Utente u</query>
+		</named-query>
+		<named-query name="getUserByEmail">
+			<query>Select u from Utente u where u.email = :email</query>
+		</named-query>
+		<named-query name="getUserByProduct">
+			<query>select u from Utente u JOIN u.listaProdotti l where l.nomeInserzione = :nomeInserzione AND l.nomeProdotto = :nomeProdotto</query>
+		</named-query>
+	</entity>
+	<entity name="Prodotto" class="it.offerNotifier.model.Prodotto">
+		<named-query name="getAllProducts">
+			<query>Select p from Prodotto p</query>
+		</named-query>
+		<named-query name="getProductByName">
+			<query>Select p from Prodotto p where p.nomeProdotto = :nomeProdotto</query>
+		</named-query>
+		<named-query name="getProductByCategory">
+			<query>Select p from Prodotto p JOIN p.categoria c where c.nomeCategoria = :nomeCategoria</query>
+		</named-query>
+	</entity>
+	<entity name="Spedizione" class="it.offerNotifier.model.Spedizione">
+		<named-query name="getAllUsers">
+			<query>Select s from Spedizione s</query>
+		</named-query>
+		<named-query name="getExpeditionByName">
+			<query>Select s from Spedizione s where s.tipologiaSpedizione = :tipologiaSpedizione</query>
+		</named-query>
+		<named-query name="getExpeditionByCost">
+			<query>Select s from Spedizione s where s.costoSpedizione = :costoSpedizione</query>
+		</named-query>
+	</entity>
+	<entity name="Venditore" class="it.offerNotifier.model.Venditore">
+		<named-query name="getAllSellers">
+			<query>Select v from Venditore v</query>
+		</named-query>
+		<named-query name="getSellerByName">
+			<query>Select v from Venditore v where v.nomeVenditore = :nomeVenditore</query>
+		</named-query>
+	</entity>
+	<entity name="Domanda" class="it.offerNotifier.model.Domanda">
+		<named-query name="getAllQuestions">
+			<query>Select d from Domanda d</query>
+		</named-query>
+		<named-query name="getQuestionsByProduct">
+			<query>Select d from Domanda d JOIN d.prodotto p WHERE p.nomeProdotto = :nomeProdotto</query>
+		</named-query>
+	</entity>
+	<entity name="Risposta" class="it.offerNotifier.model.Risposta">
+		<named-query name="getAllAnswers">
+			<query>Select r from Risposta r</query>
+		</named-query>
+		<named-query name="getAnswersByQuestion">
+			<query>Select r from Risposta r JOIN r.domanda d WHERE d.titolo = :titolo</query>
+		</named-query>
+	</entity>
+	<entity name="Recensione" class="it.offerNotifier.model.Recensione">
+		<named-query name="getAllReviews">
+			<query>Select r from Recensione r</query>
+		</named-query>
+		<named-query name="getReviewsByProduct">
+			<query>Select r from Recensione r JOIN r.prodotto p WHERE p.nomeProdotto = :nomeProdotto</query>
+		</named-query>
+	</entity>
+</entity-mappings>

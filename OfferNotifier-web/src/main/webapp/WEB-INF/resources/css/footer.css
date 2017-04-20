@@ -1,0 +1,27 @@
+#footer{
+	background-color: #3887d6;
+	height: 80px; 
+    width:100%; 
+}
+#centerFooter{
+	margin-top: 25px;
+}
+
+#facebookLink{
+	color: white;
+	font-family: 'Indie Flower';
+	font-weight: bold;
+	font-size: large;
+}
+#facebookLink:hover{
+	text-decoration: none;
+}
+#lowFootLink{
+	color: white;
+	font-family: 'Indie Flower';
+	font-weight: bold;
+	font-size: large;
+}
+#lowFootLink:hover{
+	text-decoration: none;
+}

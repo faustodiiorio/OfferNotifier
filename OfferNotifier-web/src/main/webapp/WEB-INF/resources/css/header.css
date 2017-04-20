@@ -1,0 +1,15 @@
+.navbar-default .navbar-nav > li.dropdown:hover > a, 
+.navbar-default .navbar-nav > li.dropdown:hover > a:hover,
+.navbar-default .navbar-nav > li.dropdown:hover > a:focus {
+    color: rgb(85, 85, 85);
+}
+
+.header-height{
+	height: 80px;
+}
+.title-height{
+	height: 35px;
+}
+.search-height{
+	height: 45px;
+}

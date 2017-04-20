@@ -1,0 +1,44 @@
+.profileContainer{
+	margin-top: 120px;
+}
+.profileSections{
+	text-align: center;
+	font-family: 'Indie Flower';
+	font-weight: bold;
+	font-size: x-large;
+	color: white;
+	height: 80px;
+	border-radius: 50px !important;
+}
+.profileCross{
+	background-color: #3f9be0!important;
+}
+.profileTriangle{
+	background-color: #40aa53!important;
+}
+.profileSquare{
+	background-color: #f385a4!important;
+}
+.profileCircle{
+	background-color: #d21e22!important;
+}
+.positionContributionSaved{
+	margin-top: 230px;
+}
+.positionPersonalInfo{
+	margin-top: 230px;
+}
+.positionSavedReviews{
+	margin-top: 230px;
+}
+.positionMessage{
+	margin-top: 230px;
+}
+.default-styling{
+	margin-top: 15px;
+	font-size: xx-large;
+}
+.personalInfo{
+	font-family: 'Indie Flower';
+	font-weight: bold;
+}

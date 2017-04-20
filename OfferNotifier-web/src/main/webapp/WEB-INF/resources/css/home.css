@@ -1,0 +1,74 @@
+#all{
+	min-height: 100%;
+	position: relative;
+}
+a{
+	color: white;
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: none;
+}
+a:visited{
+	color: white;
+}
+#mainContent{
+/* 	questo sarà da diminuire quando le pagine saranno piene o da spostare nei singoli css*/
+	min-height: 300px;
+}
+
+
+/* colors */
+.back-blue{
+	background-color: #3887d6;
+}
+.back-light-blue{
+	background-color: #69b1d3;
+}
+/* positioning */
+.right{
+	text-align: right;
+}
+.left{
+	text-align: left;
+}
+.cetnter{
+	text-align: center;
+}
+/* text-color */
+.light-gray{
+	color: #d8d8d8;
+}
+.white{
+	color: white;
+}
+.black{
+	color: black;
+}
+/* text-style */
+.medium{
+	font-size: medium;
+}
+.large{
+	font-size: large;
+}
+.xlarge{
+	font-size: x-large;
+}
+.low-radius{
+	border-radius: 5px;
+}
+.indie{
+	font-family: 'Indie Flower';
+}
+.bold{
+	font-weight: bold;
+}
+/* cursor */
+.pointer{
+	cursor: pointer
+}
+/* border */
+.no-border{
+	border: none;
+}

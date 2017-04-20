@@ -1,0 +1,97 @@
+<!-- widthInfo/Contribution/Saved abilitato -> aperta sezione -->
+<div data-ng-controller="ProfileController as profile">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+				<!-- 		i tuoi dati -->
+						<div class="btn btn-primary col-md-3 col-md-offset-4 profileSections profileTriangle" data-ng-click="profile.locateInfo()">
+						<div class="default-styling">DATI PERSONALI</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="btn btn-primary col-md-3 col-md-offset-2 profileSections profileSquare" data-ng-click="profile.locateContribution()">
+			<!-- 		i tuoi contributi(recensioni, walkthrough, domande, risposte) -->
+							<div class="default-styling">CONTRIBUTI</div>
+					</div>
+					<div class="btn btn-primary col-md-3 col-md-offset-2 profileSections profileCircle" data-ng-click="profile.locateSaved()">
+			<!-- 		recensioni salvate(suggerisci/correggi l'autore, ottieni punteggio) -->
+							<div class="default-styling">PREFERITI</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="btn btn-primary col-md-3 col-md-offset-4 profileSections profileCross" data-ng-click="profile.locateMessage()">
+							<div class="default-styling">CASELLA MESSAGGI</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="personalInfo col-md-offset-4" data-ng-show="profile.info">
+				<div class="row">
+					<div class="label">Nome: {{utente.nome}}</div>
+				</div>
+				<div class="row">
+					<div class="label">Cognome: {{utente.cognome}}</div>
+				</div>
+				<div class="row">
+					<div class="label">Username: {{utente.username}}</div>
+				</div>
+				<div class="row">
+					<div class="label">Email: {{utente.email}}</div>
+				</div>
+				<div class="row">
+					<div class="label">Cambia Email:</div>
+				</div>
+				<div class="row">
+					<div class="label">Nuova Email: </div>
+					<input type="email">
+				</div>
+				<div class="row">
+					<div class="label">Cambia Password:</div>
+				</div>
+				<div class="row">Vecchia Password: <input type="password" class="col-md-2"></div>
+				<div class="row">Nuova Password: <input type="password" class="col-md-2"></div>
+				<div class="row">Conferma Nuova Password: <input type="password" class="col-md-2"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="contribution" data-ng-show="profile.contribution">
+				<div class="panel panel-primary">LE TUE RECENSIONI</div>
+				<div class="recensioni" class="row">
+					<ul>
+						<li data-ng-repeat="recensione in profile.reviews"><h3>gioco: {{recensione.nomeGioco}} tipo: {{recensione.tipologia}} titolo: {{recensione.titoloRecensione}}</h3><img data-ng-src="{{recensione.img}}"></li>
+					</ul>
+				</div>
+				<div class="panel panel-primary">I TUOI WALKTHROUGH</div>
+				<div class="walkthrough" class="row">
+					<ul>
+						<li data-ng-repeat="walkthrough in profile.walkthroughs"><h3>gioco: {{walkthrough.nomeGioco}} tipo: {{walkthrough.tipologia}} titolo: {{walkthrough.titoloRecensione}}</h3><img data-ng-src="{{walkthrough.img}}"></li>
+					</ul>
+				</div>
+				<div class="panel panel-primary">LE TUE DOMANDE</div>
+				<div class="domande" class="row">
+					<ul>
+						<li data-ng-repeat="domanda in profile.domande"><h3>titolo: {{domanda.gameDTO.titolo}} console: {{domanda.gameDTO.console}} titoloDomanda: {{domanda.titolo}}</h3></li>
+					</ul>
+				</div>
+				<div class="panel panel-primary">LE TUE RISPOSTE</div>
+				<div class="risposte" class="row" >
+					<ul>
+						<li data-ng-repeat="risposta in profile.risposte"><h3>titolo: {{risposta.gameDTO.titolo}} console: {{risposta.gameDTO.console}} data: {{risposta.data}}</h3></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="savedReviews" class="panel-body" data-ng-show="profile.saved">
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="message" data-ng-show="profile.message">
+				
+			</div>
+		</div>
+	</div>
+</div>
