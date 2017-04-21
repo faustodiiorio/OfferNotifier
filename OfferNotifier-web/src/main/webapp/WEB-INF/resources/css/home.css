@@ -7,6 +7,7 @@ a{
 	text-decoration: none;
 }
 a:hover{
+	cursor: pointer;
 	text-decoration: none;
 }
 a:visited{
@@ -14,7 +15,7 @@ a:visited{
 }
 #mainContent{
 /* 	questo sarà da diminuire quando le pagine saranno piene o da spostare nei singoli css*/
-	min-height: 300px;
+/* 	min-height: 300px; */
 }
 
 
@@ -32,7 +33,7 @@ a:visited{
 .left{
 	text-align: left;
 }
-.cetnter{
+.center{
 	text-align: center;
 }
 /* text-color */
@@ -45,6 +46,9 @@ a:visited{
 .black{
 	color: black;
 }
+.blue{
+	color: #3887d6;
+}
 /* text-style */
 .medium{
 	font-size: medium;
@@ -54,6 +58,9 @@ a:visited{
 }
 .xlarge{
 	font-size: x-large;
+}
+.xxlarge{
+	font-size: xx-large;
 }
 .low-radius{
 	border-radius: 5px;

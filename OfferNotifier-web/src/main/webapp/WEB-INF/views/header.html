@@ -1,12 +1,74 @@
 <div data-ng-controller="HeaderController as header">
-	<div class="header-height col-md-12">
-		<div id="title" class="title-height col-md-12 blue">
-			<div class="col-md-3 indie xlarge" data-ui-sref="home">OfferNotifier</div>
-			<div class="col-md-4 indie large">l'unico a dirti il prezzo giusto senza interesse alcuno</div>
-			<div class="col-md-4 indie large"><a>Accedi/Registrati</a></div>
+	<div class="row white back-blue">
+		<h1 class="col-md-3 col-md-offset-1 indie white bold">
+			<a class="indie white bold" data-ui-sref="home">OfferNotifier</a>
+		</h1>
+		<h3 id="info"></h3>
+		<h3 id="log" class="col-md-offset-3" data-ng-if="!logged">
+				<b><a class="indie light-gray" data-ui-sref="login">Accedi</a> / <a class="indie light-gray" data-ui-sref="register">Registrati</a></b>
+		</h3>
+		<div id="loggedUser" class="col-md-offset-6 dropdown" data-ng-if="logged">
+			<label class="indie bold xlarge white">Benvenuto</label>
+			<button class="btn btn-success dropdown-toggle indie bold large" type="button"
+				data-toggle="dropdown">{{user.username}}<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" id="drop-user">
+				<li class="indie bold black large right pointer"><a data-ui-sref="profile">Profilo</a></li>
+				<li class="indie bold black large right pointer"><a data-ng-click="header.logout()">Logout</a></li>
+			</ul>
 		</div>
-		<div id="searchbar" class="search-height ligth-blue col-md-12">
-			
-		</div>
+	</div>
+	<div class="container back-light-blue white">
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse">
+				<form class="navbar-form" role="search" method="get">
+					<ul class="nav navbar-nav">
+						<li id="dropdown" class="dropdown low-radius black-blue"><a id="dropText" href="#"
+							class="dropdown-toggle white indie bold medium" data-toggle="dropdown">Categoria <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown" data-ng-repeat="category in header.categories">
+									<a class="dropdown-toggle" data-toggle="dropdown">{{category}}</a>
+<!-- 									<ul class="dropdown-menu" id="sub-dropdown"> -->
+<!-- 										<li><a data-ng-repeat="consoleSony in header.consolesSony" -->
+<!-- 										 data-ui-sref="searchByConsole({nomeConsole: consoleSony})">{{consoleSony}}</a></li> -->
+<!-- 									</ul> -->
+								</li>
+<!-- 								<li class="dropdown"> -->
+<!-- 									<a class="dropdown-toggle" data-toggle="dropdown">Nintendo</a> -->
+<!-- 									<ul class="dropdown-menu" id="sub-dropdown"> -->
+<!-- 										<li><a data-ng-repeat="consoleNintendo in header.consolesNintendo" -->
+<!-- 										 data-ui-sref="searchByConsole({nomeConsole: consoleNintendo})">{{consoleNintendo}}</a></li> -->
+<!-- 									</ul> -->
+<!-- 								</li> -->
+<!-- 								<li class="dropdown"> -->
+<!-- 									<a class="dropdown-toggle" data-toggle="dropdown">Microsoft</a> -->
+<!-- 									<ul class="dropdown-menu" id="sub-dropdown"> -->
+<!-- 										<li><a data-ng-repeat="consoleMicrosoft in header.consolesMicrosoft" -->
+<!-- 										data-ui-sref="searchByConsole({nomeConsole: consoleMicrosoft})">{{consoleMicrosoft}}</a></li> -->
+<!-- 									</ul> -->
+<!-- 								</li> -->
+							</ul>
+						</li>
+					</ul>
+						
+						<div class="form-group">
+							<input
+								data-ng-change="header.validate()" data-ng-model="header.search"
+								type="text" class="form-control indie bold medium searchbar-top" list="titles"
+								placeholder="Ricerca per nome" />
+							<datalist id="titles">
+								<option id="blue indie bold medium searchbar-top" data-ng-repeat="g in header.gameTitles | filter:search" value="{{g}}">{{g}}
+							</datalist>
+						</div>
+						<input type="text" class="form-control searchbar-top" placeholder="prezzo minimo">
+						<b class="searchbar-top large">/</b>
+						<input type="text" class="form-control searchbar-top" placeholder="prezzo massimo">
+						<button type="submit" class="btn btn-default indie bold medium searchbar-top"
+						data-ui-sref="searchByTitle({titoloGioco: 'search'})">Cerca</button>
+					</form>
+				</div>
+			</div>
+		</nav>
 	</div>
 </div>

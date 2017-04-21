@@ -3,13 +3,33 @@
 .navbar-default .navbar-nav > li.dropdown:hover > a:focus {
     color: rgb(85, 85, 85);
 }
-
+li.dropdown:hover > .dropdown-menu {
+    display: block;
+}
 .header-height{
-	height: 80px;
+	height: 95px;
 }
 .title-height{
-	height: 35px;
+	height: 45px;
 }
 .search-height{
-	height: 45px;
+	height: 50px;
+}
+.title-top{
+	margin-top: 8px;
+}
+.search-top{
+	margin-top: 7px;
+}
+.search-max-width{
+	max-width: 430px;
+}
+.container-fluid{
+	background-color: #69b1d3;
+}
+.navbar{
+	border: none;
+}
+.searchbar-top{
+	margin-top: 8px;
 }
