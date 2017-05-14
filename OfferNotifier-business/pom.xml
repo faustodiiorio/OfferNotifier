@@ -18,5 +18,11 @@
 			<artifactId>OfferNotifier-integration</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
 	</dependencies>
 </project>
