@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,9 +18,9 @@ public class SpedizioneDaoImpl implements SpedizioneDao {
 	private Logger logger = Logger.getLogger(SpedizioneDaoImpl.class);
 	
 	@Override
-	public List<Spedizione> getAllExpeditions() {
+	public Set<Spedizione> getAllExpeditions() {
 		logger.info("STARTING getAllExpeditions");
-		return (List<Spedizione>) entityManager.createNamedQuery("getAllExpeditions").getResultList();
+		return (Set<Spedizione>) entityManager.createNamedQuery("getAllExpeditions").getResultList();
 	}
 
 	@Override
@@ -52,5 +52,15 @@ public class SpedizioneDaoImpl implements SpedizioneDao {
 		}
 		logger.info("getEntityManager SpedizioneDaoImpl UNSUCCESSFULLY returning object");
 		return null;
+	}
+
+	@Override
+	public Spedizione getExpeditionByPK(int id) {
+		return entityManager.find(Spedizione.class, id);
+	}
+
+	@Override
+	public void persist(Spedizione spedizione) {
+		entityManager.persist(spedizione);
 	}
 }

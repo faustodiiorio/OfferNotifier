@@ -10,7 +10,7 @@
 		<named-query name="getCategoryByName">
 			<query>Select c from Categoria c where c.nomeCategoria = :nomeCategoria</query>
 		</named-query>
-		<named-query name="getCategoryById">
+		<named-query name="getCategoriesById">
 			<query>Select c from Categoria c where c.idCategoria = :idCategoria</query>
 		</named-query>
 	</entity>

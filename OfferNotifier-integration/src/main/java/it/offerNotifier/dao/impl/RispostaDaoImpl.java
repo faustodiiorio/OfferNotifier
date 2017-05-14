@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,19 +19,29 @@ public class RispostaDaoImpl implements RispostaDao {
 	private Logger logger = Logger.getLogger(RispostaDaoImpl.class);
 	
 	@Override
-	public List<Risposta> getAllAnswers() {
+	public Set<Risposta> getAllAnswers() {
 		logger.info("STARTING getAllAnswers");
-		return (List<Risposta>) entityManager.createNamedQuery("getAllAnswers").getResultList();
+		return (Set<Risposta>) entityManager.createNamedQuery("getAllAnswers").getResultList();
 	}
 
 	@Override
-	public List<Risposta> getAnswersByQuestion(Domanda domanda) {
+	public Set<Risposta> getAnswersByQuestion(Domanda domanda) {
 		logger.info("STARTING getAnswersByQuestion");
 		if(!domanda.getTitolo().equals("") && !domanda.getTitolo().isEmpty()){
 			logger.info("getAnswersByQuestion SUCCESSFULLY RETURNING OBJECT");
-			return (List<Risposta>) entityManager.createNamedQuery("getAnswersByQuestion").setParameter("domanda", domanda).getResultList();
+			return (Set<Risposta>) entityManager.createNamedQuery("getAnswersByQuestion").setParameter("domanda", domanda).getResultList();
 		}
 		logger.info("getAnswersByQuestion UNSUCCESSFULLY RETURNING OBJECT");
 		return null;
+	}
+
+	@Override
+	public Risposta getAnswerByPK(int id) {
+		return entityManager.find(Risposta.class, id);
+	}
+
+	@Override
+	public void persist(Risposta risposta) {
+		entityManager.persist(risposta);
 	}
 }

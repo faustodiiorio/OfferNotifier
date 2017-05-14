@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -23,9 +23,8 @@ public class Venditore implements Serializable {
 	@Column(name="NOME_VENDITORE")
 	private String nomeVenditore;
 
-	//bi-directional many-to-one association to Prodotto
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="venditore")
-	private List<Prodotto> listaProdotti;
+	@OneToMany(mappedBy="venditore")
+	private Set<Prodotto> listaProdotti;
 
 	public Venditore() {
 	}
@@ -54,22 +53,22 @@ public class Venditore implements Serializable {
 		this.nomeVenditore = nomeVenditore;
 	}
 
-	public List<Prodotto> getListaProdotti() {
+	public Set<Prodotto> getListaProdotti() {
 		return this.listaProdotti;
 	}
 
-	public void setListaProdotti(List<Prodotto> listaProdotti) {
+	public void setListaProdotti(Set<Prodotto> listaProdotti) {
 		this.listaProdotti = listaProdotti;
 	}
 
-	public Prodotto addProdotti(Prodotto prodotto) {
+	public Prodotto addListaProdotti(Prodotto prodotto) {
 		getListaProdotti().add(prodotto);
 		prodotto.setVenditore(this);
 
 		return prodotto;
 	}
 
-	public Prodotto removeProdotti(Prodotto prodotto) {
+	public Prodotto removeListaProdotti(Prodotto prodotto) {
 		getListaProdotti().remove(prodotto);
 		prodotto.setVenditore(null);
 

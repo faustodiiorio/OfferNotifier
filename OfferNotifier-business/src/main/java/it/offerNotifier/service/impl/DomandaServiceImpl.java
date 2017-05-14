@@ -1,7 +1,10 @@
 package it.offerNotifier.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.offerNotifier.dao.DomandaDao;
@@ -10,16 +13,28 @@ import it.offerNotifier.model.Prodotto;
 import it.offerNotifier.service.DomandaService;
 
 @Service
+@Transactional
 public class DomandaServiceImpl implements DomandaService {
+	@Autowired
 	private DomandaDao domandaDao;
 
 	@Override
-	public List<Domanda> getAllQuestions() {
+	public Set<Domanda> getAllQuestions() {
 		return domandaDao.getAllQuestions();
 	}
 
 	@Override
-	public List<Domanda> getQuestionsByProduct(Prodotto prodotto) {
+	public Set<Domanda> getQuestionsByProduct(Prodotto prodotto) {
 		return domandaDao.getQuestionsByProduct(prodotto);
+	}
+
+	@Override
+	public Domanda getQuestionByPK(int id) {
+		return domandaDao.getQuestionByPK(id);
+	}
+
+	@Override
+	public void persist(Domanda domanda) {
+		domandaDao.persist(domanda);
 	}
 }

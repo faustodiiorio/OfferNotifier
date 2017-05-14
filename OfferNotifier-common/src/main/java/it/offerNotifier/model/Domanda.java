@@ -6,37 +6,38 @@ import javax.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
-@Table(name = "domande")
-@NamedQuery(name = "Domanda.findAll", query = "SELECT d FROM Domanda d")
+@Table(name="domande")
+@NamedQuery(name="Domanda.findAll", query="SELECT d FROM Domanda d")
 public class Domanda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	@Temporal(TemporalType.DATE)
 	private Date data;
 
+	@Lob
 	private String testo;
 
 	private String titolo;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "ID_UTENTE")
-	private Utente utente;
-
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "domanda")
-	private List<Risposta> listaRisposte;
-
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_PRODOTTO")
 	private Prodotto prodotto;
-	
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ID_UTENTE")
+	private Utente utente;
+
+	@OneToMany(mappedBy="domanda")
+	private Set<Risposta> listaRisposte;
+
 	public Domanda() {
 	}
 
@@ -72,6 +73,14 @@ public class Domanda implements Serializable {
 		this.titolo = titolo;
 	}
 
+	public Prodotto getProdotto() {
+		return this.prodotto;
+	}
+
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
+	}
+
 	public Utente getUtente() {
 		return this.utente;
 	}
@@ -80,33 +89,25 @@ public class Domanda implements Serializable {
 		this.utente = utente;
 	}
 
-	public List<Risposta> getListaRisposte() {
+	public Set<Risposta> getListaRisposte() {
 		return this.listaRisposte;
 	}
 
-	public void setListaRisposte(List<Risposta> listaRisposte) {
+	public void setListaRisposte(Set<Risposta> listaRisposte) {
 		this.listaRisposte = listaRisposte;
 	}
 
-	public Risposta addRisposta(Risposta risposta) {
+	public Risposta addListaRisposte(Risposta risposta) {
 		getListaRisposte().add(risposta);
 		risposta.setDomanda(this);
 
 		return risposta;
 	}
 
-	public Risposta removeRisposta(Risposta risposta) {
+	public Risposta removeListaRisposte(Risposta risposta) {
 		getListaRisposte().remove(risposta);
 		risposta.setDomanda(null);
 
 		return risposta;
-	}
-
-	public Prodotto getProdotto() {
-		return prodotto;
-	}
-
-	public void setProdotto(Prodotto prodotto) {
-		this.prodotto = prodotto;
 	}
 }

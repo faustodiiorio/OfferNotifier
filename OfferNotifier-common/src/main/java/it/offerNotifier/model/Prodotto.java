@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -36,36 +36,31 @@ public class Prodotto implements Serializable {
 	@Column(name="TIPOLOGIA_VENDITA")
 	private String tipologiaVendita;
 
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="ID_VENDITORE")
-	private Venditore venditore;
+	@OneToMany(mappedBy="prodotto")
+	private Set<Domanda> listaDomande;
 
-	@ManyToMany(cascade={CascadeType.ALL}, mappedBy="listaProdotti")
-	private List<Utente> listaUtenti;
-
-	@ManyToMany(cascade={CascadeType.ALL})
-	@JoinTable(
-		name="prodotti_spedizioni"
-		, joinColumns={
-			@JoinColumn(name="ID_PRODOTTO")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="ID_SPEDIZIONE")
-			}
-		)
-	private List<Spedizione> listaSpedizioni;
-	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_CATEGORIA")
 	private Categoria categoria;
 
-	public Categoria getCategoria() {
-		return categoria;
-	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ID_VENDITORE")
+	private Venditore venditore;
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
+	@OneToMany(mappedBy="prodotto")
+	private Set<Recensione> listaRecensioni;
+
+	//bi-directional many-to-many association to Utente
+	@ManyToMany(mappedBy="listaProdotti")
+	private Set<Utente> listaUtenti;
+
+	//bi-directional many-to-one association to ProdottiSpedizioni
+	@OneToMany(mappedBy="prodotto")
+	private Set<ProdottiSpedizioni> listaProdottiSpedizioni;
+
+	//bi-directional many-to-one association to UtentiProdotti
+	@OneToMany(mappedBy="prodotto")
+	private Set<UtentiProdotti> listaUtentiProdotti;
 
 	public Prodotto() {
 	}
@@ -134,6 +129,36 @@ public class Prodotto implements Serializable {
 		this.tipologiaVendita = tipologiaVendita;
 	}
 
+	public Set<Domanda> getListaDomande() {
+		return this.listaDomande;
+	}
+
+	public void setListaDomande(Set<Domanda> listaDomande) {
+		this.listaDomande = listaDomande;
+	}
+
+	public Domanda addListaDomande(Domanda domanda) {
+		getListaDomande().add(domanda);
+		domanda.setProdotto(this);
+
+		return domanda;
+	}
+
+	public Domanda removeListaDomande(Domanda domanda) {
+		getListaDomande().remove(domanda);
+		domanda.setProdotto(null);
+
+		return domanda;
+	}
+
+	public Categoria getCategoria() {
+		return this.categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
 	public Venditore getVenditore() {
 		return this.venditore;
 	}
@@ -142,19 +167,77 @@ public class Prodotto implements Serializable {
 		this.venditore = venditore;
 	}
 
-	public List<Utente> getListaUtenti() {
+	public Set<Recensione> getListaRecensioni() {
+		return this.listaRecensioni;
+	}
+
+	public void setListaRecensioni(Set<Recensione> listaRecensioni) {
+		this.listaRecensioni = listaRecensioni;
+	}
+
+	public Recensione addListaRecensioni(Recensione recensione) {
+		getListaRecensioni().add(recensione);
+		recensione.setProdotto(this);
+
+		return recensione;
+	}
+
+	public Recensione removeListaRecensioni(Recensione recensione) {
+		getListaRecensioni().remove(recensione);
+		recensione.setProdotto(null);
+
+		return recensione;
+	}
+
+	public Set<Utente> getUtentis() {
 		return this.listaUtenti;
 	}
 
-	public void setListaUtenti(List<Utente> listaUtenti) {
+	public void setUtentis(Set<Utente> listaUtenti) {
 		this.listaUtenti = listaUtenti;
 	}
 
-	public List<Spedizione> getListaSpedizioni() {
-		return this.listaSpedizioni;
+	public Set<ProdottiSpedizioni> getListaProdottiSpedizioni() {
+		return this.listaProdottiSpedizioni;
 	}
 
-	public void setListaSpedizioni(List<Spedizione> listaSpedizioni) {
-		this.listaSpedizioni = listaSpedizioni;
+	public void setListaProdottiSpedizioni(Set<ProdottiSpedizioni> listaProdottiSpedizioni) {
+		this.listaProdottiSpedizioni = listaProdottiSpedizioni;
+	}
+
+	public ProdottiSpedizioni addListaProdottiSpedizioni(ProdottiSpedizioni prodottiSpedizioni) {
+		getListaProdottiSpedizioni().add(prodottiSpedizioni);
+		prodottiSpedizioni.setProdotto(this);
+
+		return prodottiSpedizioni;
+	}
+
+	public ProdottiSpedizioni removeListaProdottiSpedizioni(ProdottiSpedizioni prodottiSpedizioni) {
+		getListaProdottiSpedizioni().remove(prodottiSpedizioni);
+		prodottiSpedizioni.setProdotto(null);
+
+		return prodottiSpedizioni;
+	}
+
+	public Set<UtentiProdotti> getListaUtentiProdotti() {
+		return this.listaUtentiProdotti;
+	}
+
+	public void setListaUtentiProdotti(Set<UtentiProdotti> listaUtentiProdotti) {
+		this.listaUtentiProdotti = listaUtentiProdotti;
+	}
+
+	public UtentiProdotti addListaUtentiProdotti(UtentiProdotti utentiProdotti) {
+		getListaUtentiProdotti().add(utentiProdotti);
+		utentiProdotti.setProdotto(this);
+
+		return utentiProdotti;
+	}
+
+	public UtentiProdotti removeListaUtentiProdotti(UtentiProdotti utentiProdotti) {
+		getListaUtentiProdotti().remove(utentiProdotti);
+		utentiProdotti.setProdotto(null);
+
+		return utentiProdotti;
 	}
 }

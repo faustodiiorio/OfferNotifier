@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.offerNotifier.service.UtenteService;
-import it.offerNotifier.dto.UtenteDTO;
 import it.offerNotifier.model.Utente;
+import it.offerNotifier.dto.UtenteDTO;
 
 @Controller
 @RequestMapping("/login")
@@ -23,7 +23,7 @@ public class LoginController {
 	private UtenteService utenteService;
 	private Logger logger = Logger.getLogger(LoginController.class);
 	
-	/*@Transactional
+	/*
 	@RequestMapping(value = "/getUserByUsernameAndPassword", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody UtenteDTO getUserByUsernameAndPassword(@RequestParam(value = "username") String username, @RequestParam(value="password") String password) {
 		logger.info("Starting service getUserByUsernameAndPassword");

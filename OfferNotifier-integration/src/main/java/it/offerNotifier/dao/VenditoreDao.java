@@ -1,10 +1,12 @@
 package it.offerNotifier.dao;
 
-import java.util.List;
+import java.util.Set;
 
 import it.offerNotifier.model.Venditore;
 
 public interface VenditoreDao {
-	List<Venditore> getAllSellers();
+	void persist(Venditore venditore);
+	Venditore getSellerByPK(int id);
+	Set<Venditore> getAllSellers();
 	Venditore getSellerByName(String nomeVenditore);
 }

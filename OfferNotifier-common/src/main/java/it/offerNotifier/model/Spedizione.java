@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -27,8 +27,9 @@ public class Spedizione implements Serializable {
 	@Column(name="TIPOLOGIA_SPEDIZIONE")
 	private String tipologiaSpedizione;
 
-	@ManyToMany(cascade={CascadeType.ALL}, mappedBy="listaSpedizioni")
-	private List<Prodotto> listaProdotti;
+	//bi-directional many-to-one association to ProdottiSpedizioni
+	@OneToMany(mappedBy="spedizione")
+	private Set<ProdottiSpedizioni> listaProdottiSpedizioni;
 
 	public Spedizione() {
 	}
@@ -65,11 +66,25 @@ public class Spedizione implements Serializable {
 		this.tipologiaSpedizione = tipologiaSpedizione;
 	}
 
-	public List<Prodotto> getListaProdotti() {
-		return this.listaProdotti;
+	public Set<ProdottiSpedizioni> getListaProdottiSpedizioni() {
+		return this.listaProdottiSpedizioni;
 	}
 
-	public void setListaProdotti(List<Prodotto> listaProdotti) {
-		this.listaProdotti = listaProdotti;
+	public void setListaProdottiSpedizioni(Set<ProdottiSpedizioni> listaProdottiSpedizioni) {
+		this.listaProdottiSpedizioni = listaProdottiSpedizioni;
+	}
+
+	public ProdottiSpedizioni addListaProdottiSpedizioni(ProdottiSpedizioni prodottiSpedizioni) {
+		getListaProdottiSpedizioni().add(prodottiSpedizioni);
+		prodottiSpedizioni.setSpedizione(this);
+
+		return prodottiSpedizioni;
+	}
+
+	public ProdottiSpedizioni removeListaProdottiSpedizioni(ProdottiSpedizioni prodottiSpedizioni) {
+		getListaProdottiSpedizioni().remove(prodottiSpedizioni);
+		prodottiSpedizioni.setSpedizione(null);
+
+		return prodottiSpedizioni;
 	}
 }

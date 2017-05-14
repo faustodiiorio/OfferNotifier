@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,9 +18,9 @@ public class CategoriaDaoImpl implements CategoriaDao {
 	private Logger logger = Logger.getLogger(CategoriaDaoImpl.class);
 	
 	@Override
-	public List<Categoria> getAllCategories() {
+	public Set<Categoria> getAllCategories() {
 		logger.info("STARTING getAllCategories");
-		return (List<Categoria>) entityManager.createNamedQuery("getAllCategories").getResultList();
+		return (Set<Categoria>) entityManager.createNamedQuery("getAllCategories").getResultList();
 	}
 
 	@Override
@@ -34,17 +34,6 @@ public class CategoriaDaoImpl implements CategoriaDao {
 		return null;
 	}
 
-	@Override
-	public Categoria getCategoryById(Integer idCategoria) {
-		logger.info("STARTING getCategoryById");
-		if(!idCategoria.equals("") && !idCategoria.toString().isEmpty()){
-			logger.info("getCategoryById SUCCESSFULLY RETURNING OBJECT");
-			return (Categoria) entityManager.createNamedQuery("getCategoryById").setParameter("idCategoria", idCategoria).getSingleResult();
-		}
-		logger.info("getCategoryById UNSUCCESSFULLY RETURNING OBJECT");
-		return null;
-	}
-
 	public EntityManager getEntityManager() {
 		if(!entityManager.equals(null) && !entityManager.isOpen()){
 			logger.info("getEntityManager CategoriaDaoImpl SUCCESSFULLY returning object");
@@ -52,5 +41,26 @@ public class CategoriaDaoImpl implements CategoriaDao {
 		}
 		logger.info("getEntityManager CategoriaDaoImpl UNSUCCESSFULLY returning object");
 		return null;
+	}
+
+	@Override
+	public Set<Categoria> getCategoriesById(Integer idCategoria) {
+		logger.info("STARTING getCategoriesById");
+		if(!idCategoria.equals("") && !idCategoria.toString().isEmpty()){
+			logger.info("getCategoriesById SUCCESSFULLY RETURNING OBJECT");
+			return (Set<Categoria>) entityManager.createNamedQuery("getCategoriesById").setParameter("idCategoria", idCategoria).getResultList();
+		}
+		logger.info("getCategoryByName UNSUCCESSFULLY RETURNING OBJECT");
+		return null;
+	}
+
+	@Override
+	public Categoria getCategoryByPK(int id) {
+		return entityManager.find(Categoria.class, id);
+	}
+
+	@Override
+	public void persist(Categoria categoria) {
+		entityManager.persist(categoria);
 	}
 }

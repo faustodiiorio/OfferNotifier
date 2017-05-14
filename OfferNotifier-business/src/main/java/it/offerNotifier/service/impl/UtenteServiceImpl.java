@@ -1,20 +1,25 @@
 package it.offerNotifier.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.offerNotifier.dao.UtenteDao;
-import it.offerNotifier.model.Utente;
 import it.offerNotifier.model.Prodotto;
+import it.offerNotifier.model.Utente;
 import it.offerNotifier.service.UtenteService;
 
 @Service
+@Transactional
 public class UtenteServiceImpl implements UtenteService {
+	@Autowired
 	private UtenteDao utenteDao;
 	
 	@Override
-	public List<Utente> getUsers() {
+	public Set<Utente> getUsers() {
 		return utenteDao.getUsers();
 	}
 
@@ -24,7 +29,17 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public List<Utente> getUserByProduct(Prodotto prodotto) {
+	public Set<Utente> getUserByProduct(Prodotto prodotto) {
 		return utenteDao.getUsersByProduct(prodotto);
+	}
+
+	@Override
+	public Utente getUserByPK(int id) {
+		return utenteDao.getUserByPK(id);
+	}
+
+	@Override
+	public void persist(Utente utente) {
+		utenteDao.persist(utente);
 	}
 }

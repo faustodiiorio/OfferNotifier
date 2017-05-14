@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,20 +19,30 @@ public class RecensioneDaoImpl implements RecensioneDao {
 	private Logger logger = Logger.getLogger(RecensioneDaoImpl.class);
 	
 	@Override
-	public List<Recensione> getAllReviews() {
+	public Set<Recensione> getAllReviews() {
 		logger.info("STARTING getAllReviews");
-		return (List<Recensione>) entityManager.createNamedQuery("getAllReviews").getResultList();
+		return (Set<Recensione>) entityManager.createNamedQuery("getAllReviews").getResultList();
 	}
 
 	@Override
-	public List<Recensione> getReviewsByProduct(Prodotto prodotto) {
+	public Set<Recensione> getReviewsByProduct(Prodotto prodotto) {
 		logger.info("STARTING getReviewsByProduct");
 		if(!prodotto.getNomeProdotto().equals("") && !prodotto.getNomeProdotto().isEmpty()
 				&& !prodotto.getNomeInserzione().equals("") && !prodotto.getNomeInserzione().isEmpty()){
 			logger.info("getReviewsByProduct SUCCESSFULLY RETURNING OBJECT");
-			return (List<Recensione>) entityManager.createNamedQuery("getReviewsByProduct").setParameter("prodotto", prodotto).getResultList();
+			return (Set<Recensione>) entityManager.createNamedQuery("getReviewsByProduct").setParameter("prodotto", prodotto).getResultList();
 		}
 		logger.info("getReviewsByProduct UNSUCCESSFULLY RETURNING OBJECT");
 		return null;
+	}
+
+	@Override
+	public Recensione getReviewByPK(int id) {
+		return entityManager.find(Recensione.class, id);
+	}
+
+	@Override
+	public void persist(Recensione recensione) {
+		entityManager.persist(recensione);
 	}
 }

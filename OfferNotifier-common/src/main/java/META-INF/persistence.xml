@@ -4,6 +4,10 @@
 	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/offerNotifierDS</jta-data-source>
 		<mapping-file>META-INF/orm.xml</mapping-file>
+		<class>it.offerNotifier.model.ProdottiSpedizioni</class>
+		<class>it.offerNotifier.model.ProdottiSpedizioniPK</class>
+		<class>it.offerNotifier.model.UtentiProdotti</class>
+		<class>it.offerNotifier.model.UtentiProdottiPK</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

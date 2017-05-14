@@ -1,7 +1,10 @@
 package it.offerNotifier.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.offerNotifier.dao.ProdottoDao;
@@ -10,11 +13,13 @@ import it.offerNotifier.model.Prodotto;
 import it.offerNotifier.service.ProdottoService;
 
 @Service
+@Transactional
 public class ProdottoServiceImpl implements ProdottoService {
+	@Autowired
 	private ProdottoDao prodottoDao;
 	
 	@Override
-	public List<Prodotto> getAllProducts() {
+	public Set<Prodotto> getAllProducts() {
 		return prodottoDao.getAllProducts();
 	}
 
@@ -26,5 +31,15 @@ public class ProdottoServiceImpl implements ProdottoService {
 	@Override
 	public Prodotto getProductByCategory(Categoria categoria) {
 		return prodottoDao.getProductByCategory(categoria);
+	}
+
+	@Override
+	public Prodotto getProductByPK(int id) {
+		return prodottoDao.getProductByPK(id);
+	}
+
+	@Override
+	public void persist(Prodotto prodotto) {
+		prodottoDao.persist(prodotto);
 	}
 }

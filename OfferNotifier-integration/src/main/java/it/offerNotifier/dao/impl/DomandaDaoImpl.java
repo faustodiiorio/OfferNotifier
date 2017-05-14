@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,20 +19,30 @@ public class DomandaDaoImpl implements DomandaDao{
 	private Logger logger = Logger.getLogger(DomandaDaoImpl.class);
 	
 	@Override
-	public List<Domanda> getAllQuestions() {
+	public Set<Domanda> getAllQuestions() {
 		logger.info("STARTING getAllQuestions");
-		return (List<Domanda>) entityManager.createNamedQuery("getAllQuestions").getResultList();
+		return (Set<Domanda>) entityManager.createNamedQuery("getAllQuestions").getResultList();
 	}
 
 	@Override
-	public List<Domanda> getQuestionsByProduct(Prodotto prodotto) {
+	public Set<Domanda> getQuestionsByProduct(Prodotto prodotto) {
 		logger.info("STARTING getQuestionsByProduct");
 		if(!prodotto.getNomeProdotto().equals("") && !prodotto.getNomeProdotto().isEmpty()
 				&& !prodotto.getNomeInserzione().equals("") && !prodotto.getNomeInserzione().isEmpty()){
 			logger.info("getQuestionsByProduct SUCCESSFULLY RETURNING OBJECT");
-			return (List<Domanda>) entityManager.createNamedQuery("getQuestionsByProduct").setParameter("prodotto", prodotto).getResultList();
+			return (Set<Domanda>) entityManager.createNamedQuery("getQuestionsByProduct").setParameter("prodotto", prodotto).getResultList();
 		}
 		logger.info("getQuestionsByProduct UNSUCCESSFULLY RETURNING OBJECT");
 		return null;
+	}
+
+	@Override
+	public Domanda getQuestionByPK(int id) {
+		return entityManager.find(Domanda.class, id);
+	}
+
+	@Override
+	public void persist(Domanda domanda) {
+		entityManager.persist(domanda);
 	}
 }

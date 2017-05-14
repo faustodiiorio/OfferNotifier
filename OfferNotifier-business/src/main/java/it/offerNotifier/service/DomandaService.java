@@ -1,11 +1,13 @@
 package it.offerNotifier.service;
 
-import java.util.List;
+import java.util.Set;
 
 import it.offerNotifier.model.Domanda;
 import it.offerNotifier.model.Prodotto;
 
 public interface DomandaService {
-	List<Domanda> getAllQuestions();
-	List<Domanda> getQuestionsByProduct(Prodotto prodotto);
+	void persist(Domanda domanda);
+	Domanda getQuestionByPK(int id);
+	Set<Domanda> getAllQuestions();
+	Set<Domanda> getQuestionsByProduct(Prodotto prodotto);
 }

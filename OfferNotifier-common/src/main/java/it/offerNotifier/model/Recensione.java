@@ -5,6 +5,8 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 @Entity
 @Table(name="recensioni")
@@ -16,24 +18,20 @@ public class Recensione implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
+	@Lob
 	private String descrizione;
 
-	private float feedback;
-
-	private String tipologia;
+	private BigDecimal feedback;
 
 	@Column(name="TITOLO_RECENSIONE")
 	private String titoloRecensione;
 
-	@Column(name="VIDEO_RECENSIONE")
-	private String videoRecensione;
-
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_PRODOTTO")
 	private Prodotto prodotto;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ID_Utente")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ID_UTENTE")
 	private Utente utente;
 
 	public Recensione() {
@@ -55,20 +53,12 @@ public class Recensione implements Serializable {
 		this.descrizione = descrizione;
 	}
 
-	public float getFeedback() {
+	public BigDecimal getFeedback() {
 		return this.feedback;
 	}
 
-	public void setFeedback(float feedback) {
+	public void setFeedback(BigDecimal feedback) {
 		this.feedback = feedback;
-	}
-
-	public String getTipologia() {
-		return this.tipologia;
-	}
-
-	public void setTipologia(String tipologia) {
-		this.tipologia = tipologia;
 	}
 
 	public String getTitoloRecensione() {
@@ -77,14 +67,6 @@ public class Recensione implements Serializable {
 
 	public void setTitoloRecensione(String titoloRecensione) {
 		this.titoloRecensione = titoloRecensione;
-	}
-
-	public String getVideoRecensione() {
-		return this.videoRecensione;
-	}
-
-	public void setVideoRecensione(String videoRecensione) {
-		this.videoRecensione = videoRecensione;
 	}
 
 	public Prodotto getProdotto() {
@@ -102,4 +84,5 @@ public class Recensione implements Serializable {
 	public void setUtente(Utente utente) {
 		this.utente = utente;
 	}
+
 }

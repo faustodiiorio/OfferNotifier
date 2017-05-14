@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,9 +20,9 @@ public class UtenteDaoImpl implements UtenteDao {
 	private Logger logger = Logger.getLogger(UtenteDaoImpl.class);
 	
 	@Override
-	public List<Utente> getUsers() {
+	public Set<Utente> getUsers() {
 		logger.info("STARTING getUsers");
-		return (List<Utente>) entityManager.createNamedQuery("getUsers").getResultList();
+		return (Set<Utente>) entityManager.createNamedQuery("getUsers").getResultList();
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class UtenteDaoImpl implements UtenteDao {
 	}
 
 	@Override
-	public List<Utente> getUsersByProduct(Prodotto prodotto) {
+	public Set<Utente> getUsersByProduct(Prodotto prodotto) {
 		logger.info("STARTING getUsersByProduct");
 		if(!prodotto.getNomeInserzione().equals("") && !prodotto.getNomeInserzione().isEmpty()
 				&& !prodotto.getNomeProdotto().equals("") && !prodotto.getNomeProdotto().isEmpty()){
@@ -45,7 +45,7 @@ public class UtenteDaoImpl implements UtenteDao {
 			Query query = entityManager.createNamedQuery("getUsersByProduct");
 			query.setParameter("nomeInserzione", prodotto.getNomeInserzione());
 			query.setParameter("nomeProdotto", prodotto.getNomeProdotto());
-			return (List<Utente>) query.getResultList();
+			return (Set<Utente>) query.getResultList();
 		}
 		logger.info("getUsersByProduct UNSUCCESSFULLY returning object");
 		return null;
@@ -58,5 +58,15 @@ public class UtenteDaoImpl implements UtenteDao {
 		}
 		logger.info("getEntityManager UtenteDaoImpl UNSUCCESSFULLY returning object");
 		return null;
+	}
+
+	@Override
+	public Utente getUserByPK(int id) {
+		return entityManager.find(Utente.class, id);
+	}
+
+	@Override
+	public void persist(Utente utente) {
+		entityManager.persist(utente);
 	}
 }

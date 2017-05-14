@@ -5,11 +5,7 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-import it.offerNotifier.model.Domanda;
-import it.offerNotifier.model.Recensione;
-import it.offerNotifier.model.Risposta;
-
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -28,26 +24,31 @@ public class Utente implements Serializable {
 
 	private String password;
 
-	@ManyToMany(cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="utente")
+	private Set<Domanda> listaDomande;
+
+	@OneToMany(mappedBy="utente")
+	private Set<Recensione> listaRecensioni;
+
+	@OneToMany(mappedBy="utente")
+	private Set<Risposta> listaRisposte;
+
+	//bi-directional many-to-many association to Prodotto
+	@ManyToMany
 	@JoinTable(
-			name="utenti_prodotti"
-			, joinColumns={
-				@JoinColumn(name="ID_UTENTE")
-				}
-			, inverseJoinColumns={
-				@JoinColumn(name="ID_PRODOTTO")
-				}
-			)
-	private List<Prodotto> listaProdotti;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "utente")
-	private List<Recensione> listaRecensioni;
+		name="utenti_prodotti"
+		, joinColumns={
+			@JoinColumn(name="ID_UTENTE")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="ID_PRODOTTO")
+			}
+		)
+	private Set<Prodotto> listaProdotti;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "utente")
-	private List<Domanda> listaDomande;
-
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "utente")
-	private List<Risposta> listaRisposte;
+	//bi-directional many-to-one association to UtentiProdotti
+	@OneToMany(mappedBy="utente")
+	private Set<UtentiProdotti> listaUtentiProdotti;
 
 	public Utente() {
 	}
@@ -84,34 +85,99 @@ public class Utente implements Serializable {
 		this.password = password;
 	}
 
-	public List<Prodotto> getListaProdotti() {
-		return this.listaProdotti;
+	public Set<Domanda> getListaDomande() {
+		return this.listaDomande;
 	}
 
-	public void setListaProdotti(List<Prodotto> listaProdotti) {
-		this.listaProdotti = listaProdotti;
-	}
-	public List<Recensione> getListaRecensioni() {
-		return listaRecensioni;
-	}
-
-	public void setListaRecensioni(List<Recensione> listaRecensioni) {
-		this.listaRecensioni = listaRecensioni;
-	}
-
-	public List<Domanda> getListaDomande() {
-		return listaDomande;
-	}
-
-	public void setListaDomande(List<Domanda> listaDomande) {
+	public void setListaDomande(Set<Domanda> listaDomande) {
 		this.listaDomande = listaDomande;
 	}
 
-	public List<Risposta> getListaRisposte() {
-		return listaRisposte;
+	public Domanda addListaDomande(Domanda listaDomande) {
+		getListaDomande().add(listaDomande);
+		listaDomande.setUtente(this);
+
+		return listaDomande;
 	}
 
-	public void setListaRisposte(List<Risposta> listaRisposte) {
+	public Domanda removeListaDomande(Domanda listaDomande) {
+		getListaDomande().remove(listaDomande);
+		listaDomande.setUtente(null);
+
+		return listaDomande;
+	}
+
+	public Set<Recensione> getListaRecensioni() {
+		return this.listaRecensioni;
+	}
+
+	public void setListaRecensioni(Set<Recensione> listaRecensioni) {
+		this.listaRecensioni = listaRecensioni;
+	}
+
+	public Recensione addListaRecensioni(Recensione recensione) {
+		getListaRecensioni().add(recensione);
+		recensione.setUtente(this);
+
+		return recensione;
+	}
+
+	public Recensione removeListaRecensioni(Recensione recensione) {
+		getListaRecensioni().remove(recensione);
+		recensione.setUtente(null);
+
+		return recensione;
+	}
+
+	public Set<Risposta> getListaRisposte() {
+		return this.listaRisposte;
+	}
+
+	public void setListaRisposte(Set<Risposta> listaRisposte) {
 		this.listaRisposte = listaRisposte;
+	}
+
+	public Risposta addListaRisposte(Risposta risposta) {
+		getListaRisposte().add(risposta);
+		risposta.setUtente(this);
+
+		return risposta;
+	}
+
+	public Risposta removeListaRisposte(Risposta risposta) {
+		getListaRisposte().remove(risposta);
+		risposta.setUtente(null);
+
+		return risposta;
+	}
+
+	public Set<Prodotto> getListaProdotti() {
+		return this.listaProdotti;
+	}
+
+	public void setListaProdotti(Set<Prodotto> listaProdotti) {
+		this.listaProdotti = listaProdotti;
+	}
+
+	public Set<UtentiProdotti> getListaUtentiProdotti() {
+		return this.listaUtentiProdotti;
+	}
+
+	public void setListaUtentiProdotti(Set<UtentiProdotti> listaUtentiProdotti) {
+		this.listaUtentiProdotti = listaUtentiProdotti;
+	}
+
+	public UtentiProdotti addListaUtentiProdotti(UtentiProdotti utentiProdotti) {
+		getListaUtentiProdotti().add(utentiProdotti);
+		utentiProdotti.setUtente(this);
+
+		return utentiProdotti;
+	}
+
+	public UtentiProdotti removeListaUtentiProdotti(UtentiProdotti utentiProdotti) {
+		getListaUtentiProdotti().remove(utentiProdotti);
+		utentiProdotti.setUtente(null);
+
+		return utentiProdotti;
 	}
 }

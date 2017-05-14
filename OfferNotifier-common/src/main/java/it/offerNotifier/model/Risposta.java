@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-
 @Component
 @Entity
 @Table(name="risposte")
@@ -25,11 +24,11 @@ public class Risposta implements Serializable {
 	@Lob
 	private String testo;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_DOMANDA")
 	private Domanda domanda;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_UTENTE")
 	private Utente utente;
 

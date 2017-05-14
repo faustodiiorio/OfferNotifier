@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -24,9 +24,8 @@ public class Categoria implements Serializable {
 	@Column(name="NOME_CATEGORIA")
 	private String nomeCategoria;
 
-	//bi-directional many-to-one association to Prodotti
 	@OneToMany(mappedBy="categoria", cascade={CascadeType.ALL})
-	private List<Prodotto> listaProdotti;
+	private Set<Prodotto> listaProdotti;
 
 	public Categoria() {
 	}
@@ -55,11 +54,11 @@ public class Categoria implements Serializable {
 		this.nomeCategoria = nomeCategoria;
 	}
 
-	public List<Prodotto> getListaProdotti() {
+	public Set<Prodotto> getListaProdotti() {
 		return this.listaProdotti;
 	}
 
-	public void setListaProdotti(List<Prodotto> listaProdotti) {
+	public void setListaProdotti(Set<Prodotto> listaProdotti) {
 		this.listaProdotti = listaProdotti;
 	}
 

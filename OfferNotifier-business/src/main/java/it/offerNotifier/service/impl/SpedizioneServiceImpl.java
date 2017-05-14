@@ -1,7 +1,10 @@
 package it.offerNotifier.service.impl;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.offerNotifier.dao.SpedizioneDao;
@@ -9,11 +12,13 @@ import it.offerNotifier.model.Spedizione;
 import it.offerNotifier.service.SpedizioneService;
 
 @Service
+@Transactional
 public class SpedizioneServiceImpl implements SpedizioneService {
+	@Autowired
 	private SpedizioneDao spedizioneDao;
 	
 	@Override
-	public List<Spedizione> getAllExpeditions() {
+	public Set<Spedizione> getAllExpeditions() {
 		return spedizioneDao.getAllExpeditions();
 	}
 
@@ -25,5 +30,15 @@ public class SpedizioneServiceImpl implements SpedizioneService {
 	@Override
 	public Spedizione getExpeditionByCost(String costoSpedizione) {
 		return spedizioneDao.getExpeditionByCost(costoSpedizione);
+	}
+
+	@Override
+	public Spedizione getExpeditionByPK(int id) {
+		return spedizioneDao.getExpeditionByPK(id);
+	}
+
+	@Override
+	public void persist(Spedizione spedizione) {
+		spedizioneDao.persist(spedizione);
 	}
 }

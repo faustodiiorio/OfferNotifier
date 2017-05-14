@@ -1,11 +1,13 @@
 package it.offerNotifier.service;
 
-import java.util.List;
+import java.util.Set;
 
 import it.offerNotifier.model.Categoria;
 
 public interface CategoriaService {
-	List<Categoria> getAllCategories();
+	void persist(Categoria categoria);
+	Categoria getCategoryByPK(int id);
+	Set<Categoria> getAllCategories();
 	Categoria getCategoryByName(String nomeCategoria);
-	Categoria getCategoryById(int idCategoria);
+	Set<Categoria> getCategoriesById(Integer idCategoria);
 }

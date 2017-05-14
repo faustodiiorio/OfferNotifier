@@ -17,11 +17,11 @@ import it.offerNotifier.service.RecensioneService;
 import it.offerNotifier.service.RispostaService;
 import it.offerNotifier.dto.RispostaDTO;
 import it.offerNotifier.dto.ProdottoDTO;
-//import it.offerNotifier.dto.PartialReviewDTO;
-import it.offerNotifier.dto.DomandaDTO;
 import it.offerNotifier.model.Domanda;
 import it.offerNotifier.model.Recensione;
 import it.offerNotifier.model.Risposta;
+//import it.offerNotifier.dto.PartialReviewDTO;
+import it.offerNotifier.dto.DomandaDTO;
 
 @Controller
 @RequestMapping("/profile")
@@ -34,7 +34,7 @@ public class ProfileController {
 	private RispostaService rispostaService;
 	private Logger logger = Logger.getLogger(ProfileController.class);
 	
-/*	@Transactional
+/*	
 	@RequestMapping(value = "/getQuestionsByUser", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<DomandaDTO> getQuestionsByUser(@RequestParam(value = "username") String username){
 		logger.info("Starting service getQuestionsByUser");
@@ -59,7 +59,7 @@ public class ProfileController {
 		logger.info("Starting service getQuestionsByUser");
 		return listaDTO;
 	}
-	@Transactional
+	
 	@RequestMapping(value = "/getPartialReviewsByUser", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<PartialReviewDTO> getPartialReviewsByUser(@RequestParam(value = "username") String username){
 		logger.info("Starting service getPartialReviewsByUser");
@@ -81,7 +81,7 @@ public class ProfileController {
 		logger.info("Ending service getPartialReviewsByUser");
 		return listaDTO;
 	}
-	@Transactional
+	
 	@RequestMapping(value = "/getAnswersByUser", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<RispostaDTO> getAnswersByUser(@RequestParam(value = "username") String username){
 		logger.info("Starting service getAnswersByUser");

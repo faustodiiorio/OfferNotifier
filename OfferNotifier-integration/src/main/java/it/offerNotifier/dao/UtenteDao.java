@@ -1,12 +1,14 @@
 package it.offerNotifier.dao;
 
-import java.util.List;
+import java.util.Set;
 
-import it.offerNotifier.model.Utente;
 import it.offerNotifier.model.Prodotto;
+import it.offerNotifier.model.Utente;
 
 public interface UtenteDao {
-	List<Utente> getUsers();
+	void persist(Utente utente);
+	Utente getUserByPK(int id);
+	Set<Utente> getUsers();
 	Utente getUserByEmail(String email);
-	List<Utente> getUsersByProduct(Prodotto prodotto);
+	Set<Utente> getUsersByProduct(Prodotto prodotto);
 }

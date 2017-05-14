@@ -1,11 +1,13 @@
 package it.offerNotifier.service;
 
-import java.util.List;
+import java.util.Set;
 
 import it.offerNotifier.model.Prodotto;
 import it.offerNotifier.model.Recensione;
 
 public interface RecensioneService {
-	List<Recensione> getAllReviews();
-	List<Recensione> getReviewsByProduct(Prodotto prodotto);
+	void persist(Recensione recensione);
+	Recensione getReviewByPK(int id);
+	Set<Recensione> getAllReviews();
+	Set<Recensione> getReviewsByProduct(Prodotto prodotto);
 }

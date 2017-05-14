@@ -1,6 +1,6 @@
 package it.offerNotifier.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,9 +19,9 @@ public class ProdottoDaoImpl implements ProdottoDao {
 	private Logger logger = Logger.getLogger(ProdottoDaoImpl.class);
 	
 	@Override
-	public List<Prodotto> getAllProducts() {
+	public Set<Prodotto> getAllProducts() {
 		logger.info("STARTING getAllSellers");
-		return (List<Prodotto>) entityManager.createNamedQuery("getAllProducts").getResultList();
+		return (Set<Prodotto>) entityManager.createNamedQuery("getAllProducts").getResultList();
 	}
 
 	@Override
@@ -53,5 +53,15 @@ public class ProdottoDaoImpl implements ProdottoDao {
 		}
 		logger.info("getEntityManager ProdottoDaoImpl UNSUCCESSFULLY returning object");
 		return null;
+	}
+
+	@Override
+	public Prodotto getProductByPK(int id) {
+		return entityManager.find(Prodotto.class, id);
+	}
+
+	@Override
+	public void persist(Prodotto prodotto) {
+		entityManager.persist(prodotto);
 	}
 }
