@@ -26,6 +26,9 @@ public class Spedizione implements Serializable {
 
 	@Column(name="TIPOLOGIA_SPEDIZIONE")
 	private String tipologiaSpedizione;
+	
+	@Column(name="PAESE_DESTINAZIONE")
+	private String paeseDestinazione;
 
 	//bi-directional many-to-one association to ProdottiSpedizioni
 	@OneToMany(mappedBy="spedizione")
@@ -64,6 +67,14 @@ public class Spedizione implements Serializable {
 
 	public void setTipologiaSpedizione(String tipologiaSpedizione) {
 		this.tipologiaSpedizione = tipologiaSpedizione;
+	}
+
+	public String getPaeseDestinazione() {
+		return paeseDestinazione;
+	}
+
+	public void setPaeseDestinazione(String paeseDestinazione) {
+		this.paeseDestinazione = paeseDestinazione;
 	}
 
 	public Set<ProdottiSpedizioni> getListaProdottiSpedizioni() {

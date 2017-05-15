@@ -1,6 +1,5 @@
 package it.offerNotifier.dto;
 
-import java.util.List;
 import java.util.Set;
 
 import it.offerNotifier.model.Prodotto;

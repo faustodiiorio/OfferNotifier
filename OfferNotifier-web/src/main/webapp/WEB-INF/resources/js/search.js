@@ -1,7 +1,6 @@
 angular.module('home')
 	.controller('SearchController', ['$stateParams', '$http', function ($stateParams, $http){
 		var search = this;
-		search.superCategories = [];
 		search.searchParam = "";
 		search.byTitle = false;
 		search.byConsole = false;
@@ -30,12 +29,4 @@ angular.module('home')
 		getGameByTitleAndVersion.then(function(result){
 			search.gameByTitleAndVersion = result.data;
 		});
-		
-		header.getSuperCategories = function(){
-			var getSuperCategories = $http.get('http://localhost:8080/OfferNotifier/search/getSuperCategories');
-			getSuperCategories.then(function(result){
-				header.superCategories = result.data;
-			})
-		};
-		header.getSuperCategories();
 }]);
