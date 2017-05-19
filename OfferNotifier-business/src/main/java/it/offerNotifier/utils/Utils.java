@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 public class Utils {
 //	personal data: don't show
-	public final static String MY_APP_ID = "FaustoDi-OfferNot-PRD-908fa563f-53b506fd";
 //	versions: MUST UPDATE OFTEN
 	public final static String SERVICE_VERSION = "967";
 	public final static String FIND_VERSION = "9.8.9";

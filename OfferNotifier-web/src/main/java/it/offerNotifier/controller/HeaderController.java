@@ -23,7 +23,7 @@ public class HeaderController {
 		String nomeCategoria = "";
 		Set<String> listaNomiCategorie = new HashSet<String>();
 		String str = Utils.URL_CATEGORY + "?callname="+ Utils.GET_CATEGORY_INFO
-				+ "&appid="+ Utils.MY_APP_ID + "&CategoryID=-1&IncludeSelector=ChildCategories&version="
+				+ "&appid="+ "MYAPPID" + "&CategoryID=-1&IncludeSelector=ChildCategories&version="
 				+ Utils.SERVICE_VERSION + "&siteid="+ Utils.SITE_ID + "&responseencoding=JSON";
 		JSONObject wsResult = Utils.getJOFromUrl(str);
 		JSONArray listCategory = wsResult.getJSONObject("CategoryArray").getJSONArray("Category");

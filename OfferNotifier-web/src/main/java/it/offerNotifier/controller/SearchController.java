@@ -1,7 +1,8 @@
 package it.offerNotifier.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -25,15 +26,14 @@ public class SearchController {
 	@Autowired
 	private ApplicationContext context;
 	private Logger logger = Logger.getLogger(SearchController.class);
+	private String myAppId = "FaustoDi-OfferNot-PRD-908fa563f-53b506fd";
 	
 	@GetMapping(value="/getProducts", produces="application/json")
-	public @ResponseBody Set<ProdottoDTO> getProducts(ItemFilter[] filtri, int categoryId, String sortorder, String... keywords){
-		Set<ProdottoDTO> listaProdotti;
+	public @ResponseBody Set<ProdottoDTO> getProducts(ItemFilter[] filtri, String categoryName, String sortOrder, String... keywords){
+		Set<ProdottoDTO> listaProdotti = new HashSet<ProdottoDTO>();
 		ProdottoDTO prodottoDTO;
-		String url= Utils.URL_SEARCH + Utils.FINDING_SERVICE + "?OPERATION-NAME=" + Utils.FIND_ITEMS_ADVANCED +
-				"&SERVICE-VERSION=" + Utils.SERVICE_VERSION + "&SECURITY-APPNAME=" + Utils.MY_APP_ID +
-				"&GLOBAL-ID=" + Utils.GLOBAL_ID + "&RESPONSE-DATA-FORMAT=" + Utils.RESPONSE_DATA_FORMAT + 
-				"&REST-PAYLOAD=true&paginationInput.entriesPerPage=50";
+		String url= "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=967&SECURITY-APPNAME=" + myAppId +
+				"&GLOBAL-ID=EBAY-IT&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&paginationInput.entriesPerPage=50";
 		if(!keywords.equals("") && keywords.length != 0){
 			url = url + "&keywords=";
 			for(int i = 0; i < keywords.length; i++){
@@ -44,9 +44,13 @@ public class SearchController {
 				} else if(keywords.length > 1 && i == (keywords.length-1) && keywords[i].length() > 1){
 					url = url + keywords[i];
 				} else{
-					logger.info("it.offerNotifier.SearchController.getProducts(): CASISISTICA NON TRATTATA");
+					logger.info("it.offerNotifier.SearchController.getProducts(): CASISTICA NON TRATTATA");
 				}
 			}
+		}
+		if(!categoryName.equals("") && categoryName.length() != 0){
+			int categoryId = parseCategoryName(categoryName);
+			url = url + "&categoryId=" + categoryId;
 		}
 		JSONObject wsResult = Utils.getJOFromUrl(url);
 		prodottoDTO = new ProdottoDTO();
@@ -62,6 +66,40 @@ public class SearchController {
 			 prodottoDTO.setLocazione(item.getJSONObject(i).getString("location"));
 			 prodottoDTO.setNazione(item.getJSONObject(i).getString("country"));
 			 
+			 listaProdotti.add(prodottoDTO);
 		}
+		return listaProdotti;
+	}
+	public Integer parseCategoryName(String categoryName){
+		
+		
+		
+		return 1;
+	}
+	
+	@GetMapping(value="/prepareList", produces="application/json")
+	public @ResponseBody Map<String, String> prepareList(){
+		String categoryId = "-1";
+		String url ="http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + myAppId +
+				"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&callbackname=jsonpcallback&CategoryID=" + categoryId;
+		JSONObject wsResult = Utils.getJOFromUrl(url);
+		JSONObject item1 = wsResult.getJSONObject("CategoryArray");
+		JSONObject item = item1.getJSONObject("Category");
+		Map<String, String> listaIDCategorie= new HashMap<String, String>();
+		for(int i = 0; i < item.length(); i++){
+			if(!item.getJSONObject(i).get("CategoryID").equals("-1")){
+				listaIDCategorie.put((String)item.getJSONObject(i).get("CategoryID"), (String)item.getJSONObject(i).get("CategoryName"));
+			}
+		}
+		JSONObject wsNested;
+		for(int i = 0; i < listaIDCategorie.size(); i++){
+			url = "http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + myAppId +
+					"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&callbackname=jsonpcallback&CategoryID=" + listaIDCategorie.get(i);
+			wsNested = Utils.getJOFromUrl(url);
+			for(int j = 0; j < wsNested.length(); j++){
+				listaIDCategorie.put((String)item.getJSONObject(i).get("CategoryID"), (String)item.getJSONObject(i).get("CategoryName"));
+			}
+		}
+		return listaIDCategorie;
 	}
 }

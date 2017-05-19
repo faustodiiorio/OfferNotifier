@@ -6,10 +6,10 @@ import java.util.Set;
 import it.offerNotifier.model.Categoria;
 import it.offerNotifier.model.Spedizione;
 import it.offerNotifier.model.Utente;
+import it.offerNotifier.model.Venditore;
 
 public class ProdottoDTO{
 	private int id;
-	private String descrizione;
 	private String nomeInserzione;
 	private Categoria categoria;
 	private String urlSuEbay;
@@ -30,9 +30,10 @@ public class ProdottoDTO{
 	private String nomeProdotto;
 	private String condizioneSecondoUtente;
 //	campi in forse
+	private String descrizione;
 	private int quantita;
 	private String restituzione;
-	private String venditore;
+	private Venditore venditore;
 	private Set<Utente> listaUtenti;
 	
 	public int getId() {
@@ -173,10 +174,10 @@ public class ProdottoDTO{
 	public void setRestituzione(String restituzione) {
 		this.restituzione = restituzione;
 	}
-	public String getVenditore() {
+	public Venditore getVenditore() {
 		return venditore;
 	}
-	public void setVenditore(String venditore) {
+	public void setVenditore(Venditore venditore) {
 		this.venditore = venditore;
 	}
 	public Set<Utente> getListaUtenti() {

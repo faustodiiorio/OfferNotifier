@@ -2,11 +2,13 @@ package it.offerNotifier.dto;
 
 import java.util.List;
 
+import it.offerNotifier.model.Prodotto;
+
 public class VenditoreDTO {
 	private int id;
 	private float feedback;
 	private String nomeVenditore;
-	private List<ProdottoDTO> listaProdotti;
+	private List<Prodotto> listaProdotti;
 
 	public VenditoreDTO() {
 	}
@@ -35,23 +37,11 @@ public class VenditoreDTO {
 		this.nomeVenditore = nomeVenditore;
 	}
 
-	public List<ProdottoDTO> getListaProdotti() {
+	public List<Prodotto> getListaProdotti() {
 		return this.listaProdotti;
 	}
 
-	public void setListaProdotti(List<ProdottoDTO> listaProdotti) {
+	public void setListaProdotti(List<Prodotto> listaProdotti) {
 		this.listaProdotti = listaProdotti;
-	}
-
-	public ProdottoDTO addProdotti(ProdottoDTO prodotto) {
-		getListaProdotti().add(prodotto);
-		prodotto.setVenditore(this);
-		return prodotto;
-	}
-
-	public ProdottoDTO removeProdotti(ProdottoDTO prodotto) {
-		getListaProdotti().remove(prodotto);
-		prodotto.setVenditore(null);
-		return prodotto;
 	}
 }
