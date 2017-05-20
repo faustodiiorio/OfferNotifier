@@ -71,7 +71,8 @@ public class SearchController {
 		return listaProdotti;
 	}
 	public Integer parseCategoryName(String categoryName){
-		
+		String url = "http://www.ipronosticididelfi.com/OfferNotifier/categorie.json";
+		JSONObject wsResult = Utils.getJOFromUrl(url);
 		
 		
 		return 1;
@@ -81,23 +82,25 @@ public class SearchController {
 	public @ResponseBody Map<String, String> prepareList(){
 		String categoryId = "-1";
 		String url ="http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + myAppId +
-				"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&callbackname=jsonpcallback&CategoryID=" + categoryId;
+				"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&CategoryID=" + categoryId;
 		JSONObject wsResult = Utils.getJOFromUrl(url);
 		JSONObject item1 = wsResult.getJSONObject("CategoryArray");
-		JSONObject item = item1.getJSONObject("Category");
+		JSONArray item = item1.getJSONArray("Category");
 		Map<String, String> listaIDCategorie= new HashMap<String, String>();
 		for(int i = 0; i < item.length(); i++){
-			if(!item.getJSONObject(i).get("CategoryID").equals("-1")){
+			if(!item.getJSONObject(i).get("CategoryID").toString().trim().equalsIgnoreCase("-1")){
 				listaIDCategorie.put((String)item.getJSONObject(i).get("CategoryID"), (String)item.getJSONObject(i).get("CategoryName"));
 			}
 		}
 		JSONObject wsNested;
 		for(int i = 0; i < listaIDCategorie.size(); i++){
 			url = "http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + myAppId +
-					"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&callbackname=jsonpcallback&CategoryID=" + listaIDCategorie.get(i);
+					"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&CategoryID=" + listaIDCategorie.keySet().toArray()[i];
 			wsNested = Utils.getJOFromUrl(url);
-			for(int j = 0; j < wsNested.length(); j++){
-				listaIDCategorie.put((String)item.getJSONObject(i).get("CategoryID"), (String)item.getJSONObject(i).get("CategoryName"));
+			JSONObject item2 = wsNested.getJSONObject("CategoryArray");
+			JSONArray item3 = item2.getJSONArray("Category");
+			for(int j = 0; j < item3.length(); j++){
+				listaIDCategorie.put((String)item3.getJSONObject(j).get("CategoryID"), (String)item3.getJSONObject(j).get("CategoryName"));
 			}
 		}
 		return listaIDCategorie;
