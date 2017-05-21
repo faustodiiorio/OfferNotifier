@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.offerNotifier.dto.ProdottoDTO;
 import it.offerNotifier.model.Categoria;
-import it.offerNotifier.model.ItemFilter;
 import it.offerNotifier.utils.Utils;
 
 @Controller
@@ -29,28 +28,33 @@ public class SearchController {
 	private String myAppId = "FaustoDi-OfferNot-PRD-908fa563f-53b506fd";
 	
 	@GetMapping(value="/getProducts", produces="application/json")
-	public @ResponseBody Set<ProdottoDTO> getProducts(ItemFilter[] filtri, String categoryName, String sortOrder, String... keywords){
+	public @ResponseBody Set<ProdottoDTO> getProducts(String[] nomiFiltri, String[] valoriFiltri, String categoryName, String sortOrder, String... keywords){
 		Set<ProdottoDTO> listaProdotti = new HashSet<ProdottoDTO>();
 		ProdottoDTO prodottoDTO;
 		String url= "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=967&SECURITY-APPNAME=" + myAppId +
 				"&GLOBAL-ID=EBAY-IT&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD=true&paginationInput.entriesPerPage=50";
 		if(!keywords.equals("") && keywords.length != 0){
-			url = url + "&keywords=";
+			url += "&keywords=";
 			for(int i = 0; i < keywords.length; i++){
 				if(keywords.length == 1 && keywords[i].length() > 1){
-					url = url + keywords[i];
+					url += keywords[i];
 				} else if(keywords.length > 1 && i != (keywords.length-1) && keywords[i].length() > 1){
-					url = url + keywords[i] +"%20";
+					url += keywords[i] +"%20";
 				} else if(keywords.length > 1 && i == (keywords.length-1) && keywords[i].length() > 1){
-					url = url + keywords[i];
+					url += keywords[i];
 				} else{
-					logger.info("it.offerNotifier.SearchController.getProducts(): CASISTICA NON TRATTATA");
+					logger.info("it.offerNotifier.SearchController.getProducts(): CASISTICA NON TRATTATA KEYWORDS");
 				}
 			}
 		}
 		if(!categoryName.equals("") && categoryName.length() != 0){
 			int categoryId = parseCategoryName(categoryName);
-			url = url + "&categoryId=" + categoryId;
+			url += "&categoryId=" + categoryId;
+		}
+		if(!nomiFiltri.toString().equals("") && !nomiFiltri.toString().isEmpty()){
+			for(int i = 0; i < nomiFiltri.length; i++){
+				url += "&itemFilter(" + i + ")).name=" + nomiFiltri[i] + "&itemFilter(" + i + ").value=" + valoriFiltri[i];
+			}
 		}
 		JSONObject wsResult = Utils.getJOFromUrl(url);
 		prodottoDTO = new ProdottoDTO();
@@ -73,13 +77,13 @@ public class SearchController {
 	public Integer parseCategoryName(String categoryName){
 		String url = "http://www.ipronosticididelfi.com/OfferNotifier/categorie.json";
 		JSONObject wsResult = Utils.getJOFromUrl(url);
-		
+		wsResult.getString(categoryName);
 		
 		return 1;
 	}
 	
 	@GetMapping(value="/prepareList", produces="application/json")
-	public @ResponseBody Map<String, String> prepareList(){
+	public @ResponseBody String prepareList(){
 		String categoryId = "-1";
 		String url ="http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + myAppId +
 				"&IncludeSelector=ChildCategories&version=967&siteid=101&responseencoding=JSON&CategoryID=" + categoryId;
@@ -103,6 +107,14 @@ public class SearchController {
 				listaIDCategorie.put((String)item3.getJSONObject(j).get("CategoryID"), (String)item3.getJSONObject(j).get("CategoryName"));
 			}
 		}
-		return listaIDCategorie;
+		String result = "{\n\t";
+		for(int i = 0; i < listaIDCategorie.size(); i++){
+			result += i == (listaIDCategorie.size()-1) ? "{\n\t\"CategoryID\" : \"" + listaIDCategorie.keySet().toArray()[i] + "\",\n\t\"CategoryName\" : \"" + listaIDCategorie.values().toArray()[i] + "\"\n\t}\n}" : "{\n\t\"CategoryID\" : \"" + listaIDCategorie.keySet().toArray()[i] + "\",\n\t\"CategoryName\" : \"" + listaIDCategorie.values().toArray()[i] + "\"\n\t},\n";
+//			if(i == listaIDCategorie.size()-1){
+//				result +="{\n\t'CategoryID' : '" + listaIDCategorie.keySet().toArray()[i] + "',\n\t'CategoryName' : '" + listaIDCategorie.values().toArray()[i] + "'\n\t}"; 
+//			}
+//			result += "{\n\t'CategoryID' : '" + listaIDCategorie.keySet().toArray()[i] + "',\n\t'CategoryName' : '" + listaIDCategorie.values().toArray()[i] + "'\n\t},";
+		}
+		return result;
 	}
 }
